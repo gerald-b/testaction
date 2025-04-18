@@ -1,0 +1,6 @@
+Package: testaction
+Version: 0.1
+Maintainer: Gerald <dev@genomast.de>
+Architecture: all
+Homepage: https://github.com/gerald-b/testaction
+Description: Build test
