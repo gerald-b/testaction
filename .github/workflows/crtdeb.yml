@@ -9,6 +9,7 @@ jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-22.04
+    permissions: write-all
     steps:
     - uses: actions/checkout@v4
     - name: Create release ${{ github.ref }} as a draft
