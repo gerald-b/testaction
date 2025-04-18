@@ -41,6 +41,7 @@ jobs:
           echo -e "Homepage: http://example.com" >> ~/testaction_0.1-1_all/DEBIAN/control
           echo -e "Description: A program that prints hello" >> ~/testaction_0.1-1_all/DEBIAN/control
       - name: Run file copy action
+        uses: gerald-b/testaction@main
         with:
           source_repo: "gerald-b/testaction"
           source_path: "test.sh"
