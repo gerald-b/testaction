@@ -3,7 +3,8 @@ name: Build 🏗️ and Publish 📦️
 on:
   push:
     tags: ['*']
-
+    branches:
+      - main
 jobs:
   create-release:
     name: Create Release
