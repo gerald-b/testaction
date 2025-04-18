@@ -1,48 +1,32 @@
-# This is a basic workflow to help you get started with Actions
+name: Build 🏗️ and Publish 📦️
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags: ['*']
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-22.04
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    - name: Create release ${{ github.ref }} as a draft
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release create "${{ github.ref }}" --draft --generate-notes
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          mkdir -p ~/testaction_0.1-1_all/usr/local/bin/
-          mkdir -p ~/testaction_0.1-1_all/DEBIAN/
-          echo -e "Package: testaction" > ~/testaction_0.1-1_all/DEBIAN/control
-          echo -e "Version: 0.1" >> ~/testaction_0.1-1_all/DEBIAN/control
-          echo -e "Maintainer: Gerald <dev@genomast.de>" >> ~/testaction_0.1-1_all/DEBIAN/control
-          echo -e "Architecture: all" >> ~/testaction_0.1-1_all/DEBIAN/control
-          echo -e "Homepage: http://example.com" >> ~/testaction_0.1-1_all/DEBIAN/control
-          echo -e "Description: A program that prints hello" >> ~/testaction_0.1-1_all/DEBIAN/control
-      - name: Run file copy action
-        uses: gerald-b/testaction@main
-        with:
-          source_repo: "gerald-b/testaction"
-          source_path: "test.sh"
-          destination_path: "~/testaction_0.1-1_all/usr/local/bin/testaction.sh"
+#          mkdir -p ~/testaction_0.1-1_all/usr/local/bin/
+#          mkdir -p ~/testaction_0.1-1_all/DEBIAN/
+#          echo -e "Package: testaction" > ~/testaction_0.1-1_all/DEBIAN/control
+#          echo -e "Version: 0.1" >> ~/testaction_0.1-1_all/DEBIAN/control
+##          echo -e "Maintainer: Gerald <dev@genomast.de>" >> ~/testaction_0.1-1_all/DEBIAN/control
+#          echo -e "Architecture: all" >> ~/testaction_0.1-1_all/DEBIAN/control
+#          echo -e "Homepage: http://example.com" >> ~/testaction_0.1-1_all/DEBIAN/control
+#          echo -e "Description: A program that prints hello" >> ~/testaction_0.1-1_all/DEBIAN/control
+#      - name: Run file copy action
+#        uses: gerald-b/testaction@main
+#        with:
+#          source_repo: "gerald-b/testaction"
+#          source_path: "test.sh"
+#          destination_path: "~/testaction_0.1-1_all/usr/local/bin/testaction.sh"
